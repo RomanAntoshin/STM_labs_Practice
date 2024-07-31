@@ -23,6 +23,6 @@ namespace Task6LINQ
             Price = price;
             Date = date;
         }
-
+        public override string ToString() =>"ID: "+ID.ToString() + " Customer: //" + Customer.ID.ToString() + " Price: //" + Price.ToString() +"Date: //" + Date.ToString();
     }
 }

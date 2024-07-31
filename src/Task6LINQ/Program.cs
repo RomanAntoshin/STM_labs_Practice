@@ -27,9 +27,14 @@ namespace Task6LINQ
             orders.Add(new Order(2, customers[6], 91, new DateTime(2023, 11, 30)));
             orders.Add(new Order(3, customers[3], 234, new DateTime(2024, 9, 12)));
             orders.Add(new Order(4, customers[5], 121, new DateTime(2024, 5, 6)));
+            FirstPequest(customers);
+        }
+        static void FirstPequest(List<Customer> customers)
+        {
             List<Customer> data = customers.Where(cust => cust.City.Name == "Los Angeles").ToList();
             foreach (var el in data)
-                Console.WriteLine(el.Name);
+                Console.WriteLine(el.ToString());
         }
+
     }
 }

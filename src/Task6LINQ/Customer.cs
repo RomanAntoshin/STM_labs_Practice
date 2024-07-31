@@ -20,6 +20,6 @@ namespace Task6LINQ
             Name = name;
             City = city;
         }
-
+        public override string ToString() =>"ID: "+ID.ToString() + "// Name: " + Name.ToString() + "// City: " + City.ID.ToString();
     }
 }
