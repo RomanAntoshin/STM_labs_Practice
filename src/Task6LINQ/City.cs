@@ -8,17 +8,17 @@ namespace Task6LINQ
 {
     class City
     {
-        readonly int id;
+        /*readonly int id;
         readonly string name;
-        readonly int cityCode;
+        readonly int cityCode;*/
         public int ID { get; }
         public string Name { get; }
         public int CityCode { get; }
         public City(int id, string name, int cityCode)
         {
-            this.id = id;
-            this.name = name;
-            this.cityCode = cityCode;
+            ID = id;
+            Name = name;
+            CityCode = cityCode;
         }
     }
 }

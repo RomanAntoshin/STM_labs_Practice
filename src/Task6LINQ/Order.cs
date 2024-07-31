@@ -8,20 +8,20 @@ namespace Task6LINQ
 {
     class Order
     {
-        readonly int id;
-        readonly string customerID;
+        /*readonly int id;
+        readonly int customerID;
         readonly decimal price;
-        readonly DateTime date;
+        readonly DateTime date;*/
         public int ID { get; }
-        public string CustomerID { get; }
+        public Customer Customer { get; }
         public decimal Price { get; }
         public DateTime Date { get; }
-        public Order(int id, string customerID, decimal price, DateTime date)
+        public Order(int id, Customer customer, decimal price, DateTime date)
         {
-            this.id = id;
-            this.customerID = customerID;
-            this.price = price;
-            this.date = date;
+            ID = id;
+            Customer = customer;
+            Price = price;
+            Date = date;
         }
 
     }
