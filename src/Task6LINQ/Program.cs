@@ -21,6 +21,16 @@ namespace Task6LINQ
             customers.Add(new Customer(5, "Donald", 4));
             customers.Add(new Customer(6, "Gwen", 1));
             customers.Add(new Customer(7, "Helen", 4));
+            List<Order> orders = new List<Order>();
+            orders.Add(new Order(1, 4.ToString(), 50, new DateTime(2024, 5, 1)));
+            orders.Add(new Order(2, 7.ToString(), 91, new DateTime(2023, 11, 30)));
+            orders.Add(new Order(3, 4.ToString(), 234, new DateTime(2024, 9, 12)));
+            orders.Add(new Order(4, 2.ToString(), 121, new DateTime(2024, 5, 6)));
+
+            /*{
+                new Order(1, 50, Date= new DateTime(2024, 5, 11))
+            };*/
+
         }
     }
 }
