@@ -51,8 +51,18 @@ namespace Task6LINQ
             FourthRequest(customers, orders);
             FivethRequest(customers, orders);
             SixthRequest(customers, orders);
-            //SixthRequest
-            
+            SeventhRequest(customers, orders);
+            //SeventhRequest
+
+            /*List<decimal> sums = new List<decimal>();
+            foreach(var city in data)
+            {
+                sums.Add(city.Sum(el => el.Price));
+            }*/
+            /*foreach(var el in sums)
+            {
+                Console.WriteLine(el);
+            }*/
         }
         static void FirstRequest(List<Customer> customers)
         {
@@ -128,6 +138,13 @@ namespace Task6LINQ
                     }
                 }
             }
+        }
+        static void SeventhRequest(List<Customer> customers, List<Order> orders)
+        {
+            Console.WriteLine("Seventh Request:");
+            var data = orders.GroupBy(o => o.Customer.City);
+            var sums = data.ToDictionary(el => el.Key, el => el.Sum(p => p.Price));
+            Console.WriteLine(sums.FirstOrDefault(x => x.Value == sums.Values.Max()).Key);
         }
         struct View
         {
