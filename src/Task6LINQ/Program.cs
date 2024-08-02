@@ -50,7 +50,10 @@ namespace Task6LINQ
             }*/
             FourthRequest(customers, orders);
             FivethRequest(customers, orders);
+            SixthRequest(customers, orders);
+            //SixthRequest
             
+        }
         static void FirstRequest(List<Customer> customers)
         {
             Console.WriteLine("First request:");
@@ -83,22 +86,45 @@ namespace Task6LINQ
         }
         static void FivethRequest(List<Customer> customers, List<Order> orders)
         {
-                Console.WriteLine("FivethRequest");
-                var pairs = customers.ToDictionary(el => el, el => 0);
-                foreach (var customer in orders.Select(o => o.Customer))
+            Console.WriteLine("FivethRequest");
+            var pairs = customers.ToDictionary(el => el, el => 0);
+            foreach (var customer in orders.Select(o => o.Customer))
+            {
+                if (pairs.ContainsKey(customer))
                 {
-                    if (pairs.ContainsKey(customer))
-                    {
-                        pairs[customer]++;
-                    }
+                    pairs[customer]++;
                 }
-                var filteredPairs = pairs.Where(el => el.Value > 0).GroupBy(el => el.Key.City);
-                foreach (var group in filteredPairs)
+            }
+            var filteredPairs = pairs.Where(el => el.Value > 0).GroupBy(el => el.Key.City);
+            foreach (var group in filteredPairs)
+            {
+                Console.WriteLine(group.Key.Name);
+                foreach (var el in group)
                 {
-                    Console.WriteLine(group.Key.Name);
-                    foreach (var el in group)
+                    Console.WriteLine(el.Key.Name + " " + el.Value);
+                }
+            }
+        }
+        static void SixthRequest(List<Customer> customers, List<Order> orders)
+        {
+            Console.WriteLine("Sixth Request");
+            var pairs = customers.ToDictionary(el => el, el => 0);
+            foreach (var customer in orders.Select(o => o.Customer))
+            {
+                if (pairs.ContainsKey(customer))
+                {
+                    pairs[customer]++;
+                }
+            }
+            var filteredPairs = pairs.GroupBy(el => el.Key.City);
+            foreach (var group in filteredPairs)
+            {
+                double averageValue = group.Average(el => el.Value);
+                foreach (var el in group)
+                {
+                    if (el.Value < averageValue)
                     {
-                        Console.WriteLine(el.Key.Name + " " + el.Value);
+                        Console.WriteLine(el.Key.ToString());
                     }
                 }
             }
