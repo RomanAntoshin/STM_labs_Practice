@@ -28,12 +28,22 @@ namespace Task6LINQ
             orders.Add(new Order(3, customers[3], 234, new DateTime(2024, 9, 12)));
             orders.Add(new Order(4, customers[5], 121, new DateTime(2024, 5, 6)));
             FirstRequest(customers);
+            SecondRequest(customers, orders);
+            /*int pairs = customers.Count - orders.Select(order => order.Customer).Distinct().Count();
+            Console.WriteLine(pairs);*/
         }
         static void FirstRequest(List<Customer> customers)
         {
+            Console.WriteLine("First request:");
             List<Customer> data = customers.Where(cust => cust.City.Name == "Los Angeles").ToList();
             foreach (var el in data)
                 Console.WriteLine(el.ToString());
+        }
+        static void SecondRequest(List<Customer> customers, List<Order> orders)
+        {
+            Console.WriteLine("Secod request:");
+            int pairs = customers.Count - orders.Select(order => order.Customer).Distinct().Count();
+            Console.WriteLine(pairs);
         }
     }
 }
