@@ -17,7 +17,7 @@ namespace Task6LINQ
             List<Customer> customers = new List<Customer>();
             customers.Add(new Customer(0, "Tom", cities[0]));
             customers.Add(new Customer(1, "Ben", cities[2]));
-            customers.Add(new Customer(2, "Helen", cities[0]));
+            customers.Add(new Customer(2, "Helen", cities[4]));
             customers.Add(new Customer(3, "Alex", cities[3]));
             customers.Add(new Customer(4, "Donald", cities[3]));
             customers.Add(new Customer(5, "Gwen", cities[0]));
@@ -49,22 +49,8 @@ namespace Task6LINQ
                 }
             }*/
             FourthRequest(customers, orders);
-            //FiveRequest
-            Console.WriteLine("FivethRequest");
-            var pairs = customers.ToDictionary(el => el, el => 0);
-            foreach (var customer in orders.Select(o => o.Customer))
-            {
-                if (pairs.ContainsKey(customer))
-                {
-                    pairs[customer]++;
-                }
-            }
-            var filteredPairs = pairs.Where(el => el.Value > 0);
-            foreach (var el in filteredPairs)
-            {
-                Console.WriteLine(el.Key.Name + " " + el.Value.ToString());
-            }
-        }
+            FivethRequest(customers, orders);
+            
         static void FirstRequest(List<Customer> customers)
         {
             Console.WriteLine("First request:");
@@ -93,6 +79,28 @@ namespace Task6LINQ
             foreach (var el in filteredPairs)
             {
                 Console.WriteLine(el.Key.ToString());
+            }
+        }
+        static void FivethRequest(List<Customer> customers, List<Order> orders)
+        {
+                Console.WriteLine("FivethRequest");
+                var pairs = customers.ToDictionary(el => el, el => 0);
+                foreach (var customer in orders.Select(o => o.Customer))
+                {
+                    if (pairs.ContainsKey(customer))
+                    {
+                        pairs[customer]++;
+                    }
+                }
+                var filteredPairs = pairs.Where(el => el.Value > 0).GroupBy(el => el.Key.City);
+                foreach (var group in filteredPairs)
+                {
+                    Console.WriteLine(group.Key.Name);
+                    foreach (var el in group)
+                    {
+                        Console.WriteLine(el.Key.Name + " " + el.Value);
+                    }
+                }
             }
         }
         struct View
