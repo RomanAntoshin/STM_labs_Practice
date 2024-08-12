@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Task6LINQ
 {
@@ -34,35 +35,33 @@ namespace Task6LINQ
             FirstRequest(customers);
             SecondRequest(customers, orders);
             //ThirdRequest
-            /*View[] views = new View[customers.Count];
-            Dictionary<Customer, int> pairs = new Dictionary<Customer, int>();
-            for(int i=0; i<views.Count(); i++)
+            Console.WriteLine("ThirdRequest");
+            View[] views=new View[customers.Count];
+            //DateTime[] lastOrders=new DateTime[views.Length];
+            var pairs= GetCustomeraOrdersCount(customers, orders);
+            for (int i=0;i<views.Length;i++)
             {
+                //System.InvalidOperationException
                 views[i] = new View();
                 views[i].Name = customers[i].Name;
-            }
-            for(int i=0; i<orders.Count; i++)
-            {
-                if(pairs.ContainsKey(orders[i].Customer))
+                views[i].City = customers[i].City.Name;
+                views[i].CityCode = customers[i].City.CityCode;
+                //var pairs = GetCustomeraOrdersCount(customers, orders);
+                views[i].Count = pairs[customers[i]];
+                try 
                 {
-                    pairs[orders[i].Customer]++;
+                    views[i].LastDate = orders.Where(el => el.Customer == customers[i]).Max(o => o.Date);
                 }
-            }*/
+                catch(InvalidOperationException)
+                {
+                    views[i].LastDate = DateTime.MinValue;
+                }
+                Console.WriteLine(views[i].ToString());
+            }
             FourthRequest(customers, orders);
             FivethRequest(customers, orders);
             SixthRequest(customers, orders);
             SeventhRequest(customers, orders);
-            //SeventhRequest
-
-            /*List<decimal> sums = new List<decimal>();
-            foreach(var city in data)
-            {
-                sums.Add(city.Sum(el => el.Price));
-            }*/
-            /*foreach(var el in sums)
-            {
-                Console.WriteLine(el);
-            }*/
         }
         static void FirstRequest(List<Customer> customers)
         {
@@ -80,14 +79,7 @@ namespace Task6LINQ
         static void FourthRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("Fourth request:");
-            var pairs = customers.ToDictionary(el => el, el => 0);
-            foreach (var customer in orders.Select(o => o.Customer))
-            {
-                if (pairs.ContainsKey(customer))
-                {
-                    pairs[customer]++;
-                }
-            }
+            var pairs = GetCustomeraOrdersCount(customers, orders);
             var filteredPairs = pairs.Where(el => el.Value > 2).OrderBy(el => el.Key.Name);
             foreach (var el in filteredPairs)
             {
@@ -97,14 +89,7 @@ namespace Task6LINQ
         static void FivethRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("FivethRequest");
-            var pairs = customers.ToDictionary(el => el, el => 0);
-            foreach (var customer in orders.Select(o => o.Customer))
-            {
-                if (pairs.ContainsKey(customer))
-                {
-                    pairs[customer]++;
-                }
-            }
+            var pairs = GetCustomeraOrdersCount(customers, orders);
             var filteredPairs = pairs.Where(el => el.Value > 0).GroupBy(el => el.Key.City);
             foreach (var group in filteredPairs)
             {
@@ -118,14 +103,7 @@ namespace Task6LINQ
         static void SixthRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("Sixth Request");
-            var pairs = customers.ToDictionary(el => el, el => 0);
-            foreach (var customer in orders.Select(o => o.Customer))
-            {
-                if (pairs.ContainsKey(customer))
-                {
-                    pairs[customer]++;
-                }
-            }
+            var pairs=GetCustomeraOrdersCount(customers, orders);
             var filteredPairs = pairs.GroupBy(el => el.Key.City);
             foreach (var group in filteredPairs)
             {
@@ -139,11 +117,38 @@ namespace Task6LINQ
                 }
             }
         }
+        static Dictionary<Customer, int> GetCustomeraOrdersCount(List<Customer> customers, List<Order> orders)
+        {
+            var pairs = customers.ToDictionary(el => el, el => 0);
+            foreach (var customer in orders.Select(o => o.Customer))
+            {
+                if (pairs.ContainsKey(customer))
+                {
+                    pairs[customer]++;
+                }
+            }
+            return pairs;
+        }
+        /*static Dictionary<Customer, int> GetCustomeraOrdersCount(List<Customer> customers, List<Order> orders, DateTime[] lastOrder)
+        {
+            var pairs = customers.ToDictionary(el => el, el => 0);
+            var _customers=orders.Select(o => o.Customer);
+            for(int i=0; i<orders.Count; i++)
+            {
+                //DateTime date;
+                if(pairs.ContainsKey(orders[i].Customer))
+                {
+                    pairs[orders[i].Customer]++;
+                    lastOrder[i] = orders[i].Date;
+                    //date=orders[i].Date;
+                }
+            }
+            return pairs;
+        }*/
         static void SeventhRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("Seventh Request:");
-            var data = orders.GroupBy(o => o.Customer.City);
-            var sums = data.ToDictionary(el => el.Key, el => el.Sum(p => p.Price));
+            var sums = orders.GroupBy(o => o.Customer.City).ToDictionary(el => el.Key, el => el.Sum(p => p.Price));
             Console.WriteLine(sums.FirstOrDefault(x => x.Value == sums.Values.Max()).Key);
         }
         struct View
@@ -153,7 +158,7 @@ namespace Task6LINQ
             public int CityCode { get; set; }
             public int Count { get; set; }
             public DateTime LastDate { get; set; }
-            public override string ToString() => "Name: " + Name + " City: " + City + " Code: " + CityCode.ToString() + " Count: " + Count.ToString() + " Date: " + LastDate.ToString();
+            public override string ToString() => "Name: " + Name + " City: " + City + " Code: " + CityCode.ToString() + " Count: " + Count.ToString() + (LastDate==DateTime.MinValue ? "" :" Date: " + LastDate.ToString());
         }
 
     }
