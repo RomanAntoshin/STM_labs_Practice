@@ -34,34 +34,12 @@ namespace Task6LINQ
             orders.Add(new Order(7, customers[2], 178, new DateTime(2024, 10, 9)));
             FirstRequest(customers);
             SecondRequest(customers, orders);
-            //ThirdRequest
-            Console.WriteLine("ThirdRequest");
-            View[] views=new View[customers.Count];
-            //DateTime[] lastOrders=new DateTime[views.Length];
-            var pairs= GetCustomeraOrdersCount(customers, orders);
-            for (int i=0;i<views.Length;i++)
-            {
-                //System.InvalidOperationException
-                views[i] = new View();
-                views[i].Name = customers[i].Name;
-                views[i].City = customers[i].City.Name;
-                views[i].CityCode = customers[i].City.CityCode;
-                //var pairs = GetCustomeraOrdersCount(customers, orders);
-                views[i].Count = pairs[customers[i]];
-                try 
-                {
-                    views[i].LastDate = orders.Where(el => el.Customer == customers[i]).Max(o => o.Date);
-                }
-                catch(InvalidOperationException)
-                {
-                    views[i].LastDate = DateTime.MinValue;
-                }
-                Console.WriteLine(views[i].ToString());
-            }
+            ThirdRequest(customers, orders);  
             FourthRequest(customers, orders);
             FivethRequest(customers, orders);
             SixthRequest(customers, orders);
             SeventhRequest(customers, orders);
+            EightRequest(customers, orders);
         }
         static void FirstRequest(List<Customer> customers)
         {
@@ -75,6 +53,26 @@ namespace Task6LINQ
             Console.WriteLine("Second request:");
             int pairs = customers.Count - orders.Select(order => order.Customer).Distinct().Count();
             Console.WriteLine(pairs);
+        }
+        static void ThirdRequest(List<Customer> customers, List<Order> orders)
+        {
+            Console.WriteLine("ThirdRequest");
+            ViewForThirdRequest[] views = new ViewForThirdRequest[customers.Count];
+            var pairs = GetCustomeraOrdersCount(customers, orders);
+            for (int i = 0; i < views.Length; i++)
+            {
+                views[i] = new ViewForThirdRequest(customers[i].Name, customers[i].City.Name, customers[i].City.CityCode);
+                views[i].Count = pairs[customers[i]];
+                try
+                {
+                    views[i].LastDate = orders.Where(el => el.Customer == customers[i]).Max(o => o.Date);
+                }
+                catch (InvalidOperationException)
+                {
+                    views[i].LastDate = DateTime.MinValue;
+                }
+                Console.WriteLine(views[i].ToString());
+            }
         }
         static void FourthRequest(List<Customer> customers, List<Order> orders)
         {
@@ -129,37 +127,64 @@ namespace Task6LINQ
             }
             return pairs;
         }
-        /*static Dictionary<Customer, int> GetCustomeraOrdersCount(List<Customer> customers, List<Order> orders, DateTime[] lastOrder)
-        {
-            var pairs = customers.ToDictionary(el => el, el => 0);
-            var _customers=orders.Select(o => o.Customer);
-            for(int i=0; i<orders.Count; i++)
-            {
-                //DateTime date;
-                if(pairs.ContainsKey(orders[i].Customer))
-                {
-                    pairs[orders[i].Customer]++;
-                    lastOrder[i] = orders[i].Date;
-                    //date=orders[i].Date;
-                }
-            }
-            return pairs;
-        }*/
         static void SeventhRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("Seventh Request:");
             var sums = orders.GroupBy(o => o.Customer.City).ToDictionary(el => el.Key, el => el.Sum(p => p.Price));
             Console.WriteLine(sums.FirstOrDefault(x => x.Value == sums.Values.Max()).Key);
         }
-        struct View
+        static void EightRequest(List<Customer> customers, List<Order> orders)
+        {
+            Console.WriteLine("Eight request");
+            ViewForEightRequest[] views = new ViewForEightRequest[customers.Count];
+            var pairs = GetCustomeraOrdersCount(customers, orders);
+            decimal[] sums = new decimal[views.Length];
+            for (int i = 0; i < views.Length; i++)
+            {
+                views[i] = new ViewForEightRequest(customers[i].Name, customers[i].City.Name);
+                views[i].Count = pairs[customers[i]];
+                try
+                {
+                    views[i].Sum = orders.Where(el => el.Customer == customers[i]).Select(el => el.Price).Sum();
+                }
+                catch (InvalidOperationException)
+                {
+                    views[i].Sum = 0;
+                }
+            }
+            var sortedViews = views.OrderBy(el => el.Sum).ToArray();
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine(sortedViews[i].ToString());
+            }
+        }
+        class ViewForThirdRequest
         {
             public string Name { get; set; }
             public string City { get; set; }
             public int CityCode { get; set; }
             public int Count { get; set; }
             public DateTime LastDate { get; set; }
+            public ViewForThirdRequest(string name, string city, int cityCode)
+            {
+                Name = name;
+                City = city;
+                CityCode = cityCode;
+            }
             public override string ToString() => "Name: " + Name + " City: " + City + " Code: " + CityCode.ToString() + " Count: " + Count.ToString() + (LastDate==DateTime.MinValue ? "" :" Date: " + LastDate.ToString());
         }
-
+        class ViewForEightRequest
+        {
+            public string Name { get; set; }
+            public string City { get; set; }
+            public int Count { get; set; }
+            public decimal Sum { get; set; }
+            public ViewForEightRequest(string name, string city)
+            {
+                Name = name;
+                City = city;
+            }
+            public override string ToString() => "Name: " + Name.ToString() + " City: " + City.ToString() + " Count: " + Count.ToString() + " Sum: " + Sum.ToString();
+        }
     }
 }
