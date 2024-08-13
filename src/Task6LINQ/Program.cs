@@ -48,10 +48,15 @@ namespace Task6LINQ
             {
                 Console.WriteLine(el.ToString());
             }
+            Console.WriteLine("FourthRequest");
+            foreach (var el in requests.FourthRequest())
+            {
+                Console.WriteLine(el.ToString());
+            }
             //FirstRequest(customers);
             //SecondRequest(customers, orders);
-            ThirdRequest(customers, orders);  
-            FourthRequest(customers, orders);
+            //ThirdRequest(customers, orders);  
+            //FourthRequest(customers, orders);
             FivethRequest(customers, orders);
             SixthRequest(customers, orders);
             SeventhRequest(customers, orders);
@@ -95,7 +100,7 @@ namespace Task6LINQ
             int pairs = customers.Count - orders.Select(order => order.Customer).Distinct().Count();
             Console.WriteLine(pairs);
         }*/
-        static void ThirdRequest(List<Customer> customers, List<Order> orders)
+        /*static void ThirdRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("ThirdRequest");
             ViewForThirdRequest[] views = new ViewForThirdRequest[customers.Count];
@@ -114,17 +119,17 @@ namespace Task6LINQ
                 }
                 Console.WriteLine(views[i].ToString());
             }
-        }
-        static void FourthRequest(List<Customer> customers, List<Order> orders)
+        }*/
+        /*static void FourthRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("Fourth request:");
-            var pairs = GetCustomeraOrdersCount(customers, orders);
-            var filteredPairs = pairs.Where(el => el.Value > 2).OrderBy(el => el.Key.Name);
+            //var pairs = GetCustomeraOrdersCount(customers, orders);
+            var filteredPairs = GetCustomeraOrdersCount(customers, orders).Where(el => el.Value > 2).OrderBy(el => el.Key.Name).Select(el=>el.Key).ToArray();
             foreach (var el in filteredPairs)
             {
-                Console.WriteLine(el.Key.ToString());
+                Console.WriteLine(el.ToString());
             }
-        }
+        }*/
         static void FivethRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("FivethRequest");

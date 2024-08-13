@@ -54,5 +54,10 @@ namespace Task6LINQ
             }
             return views;
         }
+        public Customer[] FourthRequest()
+        {
+            return GetCustomeraOrdersCount().Where(el => el.Value > 2).OrderBy(el => el.Key.Name).Select(el => el.Key).ToArray();
+        }
+        //public Dictionary<Customer, int>
     }
 }
