@@ -35,8 +35,21 @@ namespace Task6LINQ
             orders.Add(new Order(0, customers[3], 150, new DateTime(2024, 5, 21)));
             orders.Add(new Order(6, customers[2], 94, new DateTime(2024, 1, 9)));
             orders.Add(new Order(7, customers[2], 178, new DateTime(2024, 10, 9)));
-            FirstRequest(customers);
-            SecondRequest(customers, orders);
+            Requests requests = new Requests(customers, orders);
+            Console.WriteLine("First request:");
+            foreach(var el in requests.FirstRequest())
+            {
+                Console.WriteLine(el.ToString());
+            }
+            Console.WriteLine("Second request");
+            Console.WriteLine(requests.SecondRequest());
+            Console.WriteLine("ThirdRequest");
+            foreach (var el in requests.ThirdRequest())
+            {
+                Console.WriteLine(el.ToString());
+            }
+            //FirstRequest(customers);
+            //SecondRequest(customers, orders);
             ThirdRequest(customers, orders);  
             FourthRequest(customers, orders);
             FivethRequest(customers, orders);
@@ -61,10 +74,6 @@ namespace Task6LINQ
             part=points.AsParallel().SelectMany(p=> square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
             stopwatch.Stop();
             Console.WriteLine("Parallel operation time: " + stopwatch.ElapsedMilliseconds);
-            /*stopwatch.Restart();
-            part = points.AsParallel().WithExecutionMode(ParallelExecutionMode.ForceParallelism).SelectMany(p => square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
-            stopwatch.Stop();
-            Console.WriteLine("maximum number of threads: "+stopwatch.ElapsedMilliseconds);*/
             Console.WriteLine(4 * (part/size));
         }
         static double GetDistance(PointF a, PointF b)
@@ -73,19 +82,19 @@ namespace Task6LINQ
             double deltaY = b.Y - a.Y;
             return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
         }
-        static void FirstRequest(List<Customer> customers)
+        /*static void FirstRequest(List<Customer> customers)
         {
             Console.WriteLine("First request:");
             List<Customer> data = customers.Where(cust => cust.City.Name == "Los Angeles").ToList();
             foreach (var el in data)
                 Console.WriteLine(el.ToString());
-        }
-        static void SecondRequest(List<Customer> customers, List<Order> orders)
+        }*/
+        /*static void SecondRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("Second request:");
             int pairs = customers.Count - orders.Select(order => order.Customer).Distinct().Count();
             Console.WriteLine(pairs);
-        }
+        }*/
         static void ThirdRequest(List<Customer> customers, List<Order> orders)
         {
             Console.WriteLine("ThirdRequest");
