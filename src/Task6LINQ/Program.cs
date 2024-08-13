@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 
 namespace Task6LINQ
@@ -40,6 +41,40 @@ namespace Task6LINQ
             SixthRequest(customers, orders);
             SeventhRequest(customers, orders);
             EightRequest(customers, orders);
+            PointF[] square = new PointF[] { new PointF(0, 0), new PointF(0, 1), new PointF(1, 0), new PointF(1, 1) };
+            Random rnd = new Random();
+            double size = 1e8;
+            double count = 0;
+            for(int i=0;i<size;i++)
+            {
+                PointF p = new PointF((float)rnd.NextDouble(), (float)rnd.NextDouble());
+                /* int part = square.Select(el => GetDistance(el, p)).Where(el => el < 1).ToArray().Length;
+                 if(part==1)
+                 {
+                     count++;
+                 }*/
+                var part = square.Select(el => GetDistance(el, p)).Where(d=>d<0.5).Count();
+                //Console.WriteLine(part);
+                if(part==1)
+                {
+                    count++;
+                }
+                /*foreach(var el in part)
+                {
+                    Console.WriteLine(el);
+                }
+                Console.WriteLine("------------------------");*/
+            }
+            Console.WriteLine(4 * (count/size));
+            //Console.WriteLine(count);
+            //Console.WriteLine(count);
+            //Console.WriteLine(size/count);
+        }
+        static double GetDistance(PointF a, PointF b)
+        {
+            double deltaX = b.X - a.X;
+            double deltaY = b.Y - a.Y;
+            return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
         }
         static void FirstRequest(List<Customer> customers)
         {
