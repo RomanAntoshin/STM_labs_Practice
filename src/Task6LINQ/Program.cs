@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Task6LINQ
 {
@@ -44,31 +46,26 @@ namespace Task6LINQ
             PointF[] square = new PointF[] { new PointF(0, 0), new PointF(0, 1), new PointF(1, 0), new PointF(1, 1) };
             Random rnd = new Random();
             double size = 1e8;
-            double count = 0;
+            //double count = 0;
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Start();
+            PointF[] points = new PointF[(int)size];
             for(int i=0;i<size;i++)
             {
-                PointF p = new PointF((float)rnd.NextDouble(), (float)rnd.NextDouble());
-                /* int part = square.Select(el => GetDistance(el, p)).Where(el => el < 1).ToArray().Length;
-                 if(part==1)
-                 {
-                     count++;
-                 }*/
-                var part = square.Select(el => GetDistance(el, p)).Where(d=>d<0.5).Count();
-                //Console.WriteLine(part);
-                if(part==1)
-                {
-                    count++;
-                }
-                /*foreach(var el in part)
-                {
-                    Console.WriteLine(el);
-                }
-                Console.WriteLine("------------------------");*/
+                points[i] = new PointF((float)rnd.NextDouble(), (float)rnd.NextDouble());
             }
-            Console.WriteLine(4 * (count/size));
-            //Console.WriteLine(count);
-            //Console.WriteLine(count);
-            //Console.WriteLine(size/count);
+            var part = points.SelectMany(p => square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
+            stopwatch.Stop();
+            Console.WriteLine("Sequential operation time: " + stopwatch.ElapsedMilliseconds);
+            stopwatch.Restart();
+            part=points.AsParallel().SelectMany(p=> square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
+            stopwatch.Stop();
+            Console.WriteLine("Parallel operation time: " + stopwatch.ElapsedMilliseconds);
+            /*stopwatch.Restart();
+            part = points.AsParallel().WithExecutionMode(ParallelExecutionMode.ForceParallelism).SelectMany(p => square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
+            stopwatch.Stop();
+            Console.WriteLine("maximum number of threads: "+stopwatch.ElapsedMilliseconds);*/
+            Console.WriteLine(4 * (part/size));
         }
         static double GetDistance(PointF a, PointF b)
         {
