@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Drawing;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Threading;
 
 namespace Task6LINQ
 {
@@ -37,7 +32,7 @@ namespace Task6LINQ
             orders.Add(new Order(7, customers[2], 178, new DateTime(2024, 10, 9)));
             Requests requests = new Requests(customers, orders);
             Console.WriteLine("First request:");
-            foreach(var el in requests.FirstRequest())
+            foreach (var el in requests.FirstRequest())
             {
                 Console.WriteLine(el.ToString());
             }
@@ -70,35 +65,15 @@ namespace Task6LINQ
             Console.WriteLine("Seventh request");
             Console.WriteLine(requests.SeventhRequest().ToString());
             Console.WriteLine("Eight request");
-            for(int i = 0; i<3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 Console.WriteLine(requests.EightRequests()[i].ToString());
             }
-            PointF[] square = new PointF[] { new PointF(0, 0), new PointF(0, 1), new PointF(1, 0), new PointF(1, 1) };
-            Random rnd = new Random();
-            double size = 1e8;
-            //double count = 0;
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            stopwatch.Start();
-            PointF[] points = new PointF[(int)size];
-            for(int i=0;i<size;i++)
-            {
-                points[i] = new PointF((float)rnd.NextDouble(), (float)rnd.NextDouble());
-            }
-            var part = points.SelectMany(p => square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
-            stopwatch.Stop();
-            Console.WriteLine("Sequential operation time: " + stopwatch.ElapsedMilliseconds);
-            stopwatch.Restart();
-            part=points.AsParallel().SelectMany(p=> square.Select(s => GetDistance(s, p))).Where(d => d < 0.5).Count();
-            stopwatch.Stop();
-            Console.WriteLine("Parallel operation time: " + stopwatch.ElapsedMilliseconds);
-            Console.WriteLine(4 * (part/size));
-        }
-        static double GetDistance(PointF a, PointF b)
-        {
-            double deltaX = b.X - a.X;
-            double deltaY = b.Y - a.Y;
-            return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+            long sequential;
+            long parallel;
+            LinqVsPLinq.Run(out sequential, out parallel);
+            Console.WriteLine("Sequential operation time: " + sequential);
+            Console.WriteLine("Parallel operation time: " + parallel);
         }
     }
 }

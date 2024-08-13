@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace Task6LINQ
 {
@@ -66,7 +63,7 @@ namespace Task6LINQ
         public List<Customer> SixthRequest()
         {
             List<Customer> ret = new List<Customer>();
-            var filteredPairs= GetCustomeraOrdersCount().GroupBy(el => el.Key.City);
+            var filteredPairs = GetCustomeraOrdersCount().GroupBy(el => el.Key.City);
             foreach (var group in filteredPairs)
             {
                 double averageValue = group.Average(el => el.Value);
@@ -74,7 +71,6 @@ namespace Task6LINQ
                 {
                     if (el.Value < averageValue)
                     {
-                        //Console.WriteLine(el.Key.ToString());
                         ret.Add(el.Key);
                     }
                 }
@@ -106,6 +102,5 @@ namespace Task6LINQ
             }
             return views.OrderBy(el => el.Sum).ToArray();
         }
-        //public Dictionary<Customer, int>
     }
 }

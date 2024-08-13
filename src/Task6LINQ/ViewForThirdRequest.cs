@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task6LINQ
 {
@@ -19,7 +15,7 @@ namespace Task6LINQ
             City = city;
             CityCode = cityCode;
         }
-        public override string ToString() => "Name: " + Name + " City: " + City + " Code: " + CityCode.ToString() + " Count: " + Count.ToString() 
+        public override string ToString() => "Name: " + Name + " City: " + City + " Code: " + CityCode.ToString() + " Count: " + Count.ToString()
             + (LastDate == DateTime.MinValue ? "" : " Date: " + LastDate.ToString());
     }
 }
