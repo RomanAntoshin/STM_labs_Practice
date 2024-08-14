@@ -23,39 +23,14 @@ namespace Task6LINQ
         }
         private Dictionary<Customer, int> GetCustomeraOrdersCount()
         {
-            return customers.GroupJoin(orders, customer => customer, order => order.Customer, (customer, customerOrders) => 
+            return customers.GroupJoin(orders, customer => customer, order => order.Customer, (customer, customerOrders) =>
             new { Customer = customer, Count = customerOrders.Count() }).ToDictionary(x => x.Customer, x => x.Count);
-            //return orders.GroupBy(o=>o.Customer).ToDictionary(g=>g.Key, g=>g.Count());
-           /* var pairs = customers.ToDictionary(el => el, el => 0);
-            foreach (var customer in orders.Select(o => o.Customer))
-            {
-                if (pairs.ContainsKey(customer))
-                {
-                    pairs[customer]++;
-                }
-            }
-            return pairs;*/
         }
         public ViewForThirdRequest[] ThirdRequest()
         {
-            //ViewForThirdRequest[] views = new ViewForThirdRequest[customers.Count];
-            var pairs = GetCustomeraOrdersCount();
-            return customers.Select(customer => new ViewForThirdRequest(customer.Name, customer.City.Name, customer.City.CityCode, pairs[customer],
+            return customers.Select(customer => new ViewForThirdRequest(customer.Name, customer.City.Name,
+                customer.City.CityCode, GetCustomeraOrdersCount()[customer],
                 orders.Where(o => o.Customer == customer).DefaultIfEmpty().Max(o => o?.Date ?? DateTime.MinValue))).ToArray();
-            /*for (int i = 0; i < views.Length; i++)
-            {
-                views[i] = new ViewForThirdRequest(customers[i].Name, customers[i].City.Name, customers[i].City.CityCode);
-                views[i].Count = pairs[customers[i]];
-                try
-                {
-                    views[i].LastDate = orders.Where(el => el.Customer == customers[i]).Max(o => o.Date);
-                }
-                catch (InvalidOperationException)
-                {
-                    views[i].LastDate = DateTime.MinValue;
-                };
-            }
-            return views;*/
         }
         public Customer[] FourthRequest()
         {
@@ -67,45 +42,20 @@ namespace Task6LINQ
         }
         public List<Customer> SixthRequest()
         {
-            List<Customer> ret = new List<Customer>();
-            var filteredPairs = GetCustomeraOrdersCount().GroupBy(el => el.Key.City);
-            foreach (var group in filteredPairs)
-            {
-                double averageValue = group.Average(el => el.Value);
-                foreach (var el in group)
-                {
-                    if (el.Value < averageValue)
-                    {
-                        ret.Add(el.Key);
-                    }
-                }
-            }
-            return ret;
+            return GetCustomeraOrdersCount().GroupBy(el => el.Key.City).
+                SelectMany(group => group.Where(el => el.Value < group.Average(x => x.Value))).Select(el => el.Key).ToList();
         }
         public City SeventhRequest()
         {
             var sums = orders.GroupBy(o => o.Customer.City).ToDictionary(el => el.Key, el => el.Sum(p => p.Price));
             return sums.FirstOrDefault(x => x.Value == sums.Values.Max()).Key;
         }
-        public ViewForEightRequest[] EightRequests()
+        public ViewForEightRequest[] EightRequests(int count)
         {
-            ViewForEightRequest[] views = new ViewForEightRequest[customers.Count];
             var pairs = GetCustomeraOrdersCount();
-            decimal[] sums = new decimal[views.Length];
-            for (int i = 0; i < views.Length; i++)
-            {
-                views[i] = new ViewForEightRequest(customers[i].Name, customers[i].City.Name);
-                views[i].Count = pairs[customers[i]];
-                try
-                {
-                    views[i].Sum = orders.Where(el => el.Customer == customers[i]).Select(el => el.Price).Sum();
-                }
-                catch (InvalidOperationException)
-                {
-                    views[i].Sum = 0;
-                }
-            }
-            return views.OrderBy(el => el.Sum).ToArray();
+            return customers.Select(customer => new ViewForEightRequest(customer.Name, customer.City.Name, pairs[customer],
+                orders.Where(el => el.Customer == customer).Sum(el => el.Price))).
+                OrderBy(el => el.Sum).Take(Math.Min(count, customers.Count())).ToArray();
         }
     }
 }

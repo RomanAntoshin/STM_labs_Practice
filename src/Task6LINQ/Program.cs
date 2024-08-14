@@ -39,10 +39,6 @@ namespace Task6LINQ
             Requests requests = new Requests(customers, orders);
             Console.WriteLine("First request:");
             Print(requests.FirstRequest());
-            /*foreach (var el in requests.FirstRequest())
-            {
-                Console.WriteLine(el.ToString());
-            }*/
             Console.WriteLine("Second request");
             Console.WriteLine(requests.SecondRequest());
             Console.WriteLine("Third Request");
@@ -63,10 +59,7 @@ namespace Task6LINQ
             Console.WriteLine("Seventh request");
             Console.WriteLine(requests.SeventhRequest().ToString());
             Console.WriteLine("Eight request");
-            for (int i = 0; i < 3; i++)
-            {
-                Console.WriteLine(requests.EightRequests()[i].ToString());
-            }
+            Print(requests.EightRequests(3));
             long sequential;
             long parallel;
             LinqVsPLinq.Run(out sequential, out parallel);

@@ -9,14 +9,11 @@ namespace Task6LINQ
         public int CityCode { get; set; }
         public int Count { get; set; }
         public DateTime LastDate { get; set; }
-        public ViewForThirdRequest(string name, string city, int cityCode)
+        public ViewForThirdRequest(string name, string city, int cityCode, int count, DateTime lastDate)// : this(name, city, cityCode)
         {
             Name = name;
             City = city;
             CityCode = cityCode;
-        }
-        public ViewForThirdRequest(string name, string city, int cityCode, int count, DateTime lastDate) : this(name, city, cityCode)
-        {
             Count = count;
             LastDate = lastDate;
         }
