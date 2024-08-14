@@ -39,15 +39,9 @@ namespace Task6LINQ
             Console.WriteLine("Second request");
             Console.WriteLine(requests.SecondRequest());
             Console.WriteLine("Third Request");
-            foreach (var el in requests.ThirdRequest())
-            {
-                Console.WriteLine(el.ToString());
-            }
+            Print(requests.ThirdRequest());
             Console.WriteLine("Fourth Request");
-            foreach (var el in requests.FourthRequest())
-            {
-                Console.WriteLine(el.ToString());
-            }
+            Print(requests.FourthRequest());
             Console.WriteLine("Fiveth Request");
             foreach (var group in requests.FivethRequest())
             {
@@ -58,10 +52,7 @@ namespace Task6LINQ
                 }
             }
             Console.WriteLine("Sixth Request");
-            foreach (var el in requests.SixthRequest())
-            {
-                Console.WriteLine(el.ToString());
-            }
+            Print(requests.SixthRequest());
             Console.WriteLine("Seventh request");
             Console.WriteLine(requests.SeventhRequest().ToString());
             Console.WriteLine("Eight request");
@@ -74,6 +65,10 @@ namespace Task6LINQ
             LinqVsPLinq.Run(out sequential, out parallel);
             Console.WriteLine("Sequential operation time: " + sequential);
             Console.WriteLine("Parallel operation time: " + parallel);
+        }
+        public static void Print(IEnumerable<object> values)
+        {
+            foreach(var value in values) Console.WriteLine(value.ToString());
         }
     }
 }
