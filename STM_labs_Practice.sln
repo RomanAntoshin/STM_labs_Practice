@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task1SampleGit", "src\Task1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task2BasicOfAlgorithmization", "src\Task2BasicOfAlgorithmization\Task2BasicOfAlgorithmization.csproj", "{88599355-B951-48F9-B910-4909B5F3F5C2}"
 EndProject
+feature/task6/LINQ
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task3DelegatesEventsExceptions", "src\Task3DelegatesEventsExceptions\Task3DelegatesEventsExceptions.csproj", "{44136471-4F12-4A77-9233-318A3F6904AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task6LINQ", "src\Task6LINQ\Task6LINQ.csproj", "{876C1F35-3804-4DB0-8708-7491A3DF0D9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4OOP", "src\Task4OOP\Task4OOP.csproj", "{5290AF32-EFDD-4BED-86D8-C76FE291A7BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task3DelegatesEventsExceptions", "src\Task3DelegatesEventsExceptions\Task3DelegatesEventsExceptions.csproj", "{44136471-4F12-4A77-9233-318A3F6904AA}"
+
+master
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +30,12 @@ Global
 		{88599355-B951-48F9-B910-4909B5F3F5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88599355-B951-48F9-B910-4909B5F3F5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88599355-B951-48F9-B910-4909B5F3F5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+
+		{5290AF32-EFDD-4BED-86D8-C76FE291A7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5290AF32-EFDD-4BED-86D8-C76FE291A7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5290AF32-EFDD-4BED-86D8-C76FE291A7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5290AF32-EFDD-4BED-86D8-C76FE291A7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+
 		{44136471-4F12-4A77-9233-318A3F6904AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44136471-4F12-4A77-9233-318A3F6904AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44136471-4F12-4A77-9233-318A3F6904AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +44,7 @@ Global
 		{876C1F35-3804-4DB0-8708-7491A3DF0D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{876C1F35-3804-4DB0-8708-7491A3DF0D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{876C1F35-3804-4DB0-8708-7491A3DF0D9A}.Release|Any CPU.Build.0 = Release|Any CPU
+master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

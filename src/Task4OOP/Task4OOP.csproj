@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="INPUT.txt" />
+    <None Remove="Database.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="INPUT.txt">
+    <EmbeddedResource Include="Database.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
