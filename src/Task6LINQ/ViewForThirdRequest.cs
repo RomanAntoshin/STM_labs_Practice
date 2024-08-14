@@ -15,6 +15,12 @@ namespace Task6LINQ
             City = city;
             CityCode = cityCode;
         }
+        public ViewForThirdRequest(string name, string city, int cityCode, int count, DateTime lastDate) : this(name, city, cityCode)
+        {
+            Count = count;
+            LastDate = lastDate;
+        }
+
         public override string ToString() => "Name: " + Name + " City: " + City + " Code: " + CityCode.ToString() + " Count: " + Count.ToString()
             + (LastDate == DateTime.MinValue ? "" : " Date: " + LastDate.ToString());
     }

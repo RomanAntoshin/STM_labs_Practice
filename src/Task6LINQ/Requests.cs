@@ -23,7 +23,10 @@ namespace Task6LINQ
         }
         private Dictionary<Customer, int> GetCustomeraOrdersCount()
         {
-            var pairs = customers.ToDictionary(el => el, el => 0);
+            return customers.GroupJoin(orders, customer => customer, order => order.Customer, (customer, customerOrders) => 
+            new { Customer = customer, Count = customerOrders.Count() }).ToDictionary(x => x.Customer, x => x.Count);
+            //return orders.GroupBy(o=>o.Customer).ToDictionary(g=>g.Key, g=>g.Count());
+           /* var pairs = customers.ToDictionary(el => el, el => 0);
             foreach (var customer in orders.Select(o => o.Customer))
             {
                 if (pairs.ContainsKey(customer))
@@ -31,13 +34,15 @@ namespace Task6LINQ
                     pairs[customer]++;
                 }
             }
-            return pairs;
+            return pairs;*/
         }
         public ViewForThirdRequest[] ThirdRequest()
         {
-            ViewForThirdRequest[] views = new ViewForThirdRequest[customers.Count];
+            //ViewForThirdRequest[] views = new ViewForThirdRequest[customers.Count];
             var pairs = GetCustomeraOrdersCount();
-            for (int i = 0; i < views.Length; i++)
+            return customers.Select(customer => new ViewForThirdRequest(customer.Name, customer.City.Name, customer.City.CityCode, pairs[customer],
+                orders.Where(o => o.Customer == customer).DefaultIfEmpty().Max(o => o?.Date ?? DateTime.MinValue))).ToArray();
+            /*for (int i = 0; i < views.Length; i++)
             {
                 views[i] = new ViewForThirdRequest(customers[i].Name, customers[i].City.Name, customers[i].City.CityCode);
                 views[i].Count = pairs[customers[i]];
@@ -50,7 +55,7 @@ namespace Task6LINQ
                     views[i].LastDate = DateTime.MinValue;
                 };
             }
-            return views;
+            return views;*/
         }
         public Customer[] FourthRequest()
         {
